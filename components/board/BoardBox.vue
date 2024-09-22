@@ -1,6 +1,5 @@
 <template>
-    <div>login</div>
-    <div>
+    <div class="board">
         <slot></slot>
     </div>
 </template>

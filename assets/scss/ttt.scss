@@ -1,0 +1,13 @@
+@import "board";
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+.vh100 {
+  height: 100vh;
+}
+.vw100 {
+  width: 100vw;
+}

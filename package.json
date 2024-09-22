@@ -11,11 +11,12 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.3",
-    "nuxt": "^3.13.0",
+    "nuxt": "^3.13.2",
     "vue": "latest",
     "vue-router": "latest"
   },
   "devDependencies": {
+    "@types/bootstrap": "^5.2.10",
     "sass": "^1.79.3"
   }
 }
