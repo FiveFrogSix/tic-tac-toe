@@ -5,7 +5,9 @@
         <Logo></Logo>
       </div>
       <div class="col">
-        <slot />
+        <div class="d-flex flex-column gap-3">
+          <slot />
+        </div>
       </div>
     </div>
   </div>

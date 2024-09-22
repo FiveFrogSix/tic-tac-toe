@@ -1,5 +1,35 @@
-.board{
-    background-color: #fc0000;
-    display: grid;
-    grid-template-columns: auto auto auto;
+$blue-1: #121624;
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-gap: 5px;
+  margin: 20px 0;
+}
+.board-cell {
+  font-family: "Itim", cursive;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $blue-1;
+  background-color: $blue-1;
+  font-size: 2em;
+  border-radius: 10px;
+  font-weight: 500;
+  color: var(--bs-primary);
+  &.player-x {
+    color: var(--bs-danger);
+  }
+  &.player-o {
+    color: var(--bs-primary);
+  }
+}
+
+.btn {
+  &.board-cell {
+    &:hover {
+      background-color: rgba(18, 22, 36, 0.8);
+    }
+  }
 }
