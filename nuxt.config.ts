@@ -2,6 +2,7 @@
 export default defineNuxtConfig({
   app: {
     head: {
+      title: "Tic Tac Toe",
       htmlAttrs: {
         lang: "en",
         "data-bs-theme": "dark",

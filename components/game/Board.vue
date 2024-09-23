@@ -14,6 +14,5 @@ defineProps({
 <style scoped lang="scss">
 .disabled {
   pointer-events: none;
-  opacity: 0.4;
 }
 </style>

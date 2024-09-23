@@ -1,5 +1,7 @@
 $blue-1: #121624;
 .board {
+  position: relative;
+  width: auto;
   display: grid;
   grid-template-columns: repeat(3, 100px);
   grid-gap: 5px;
@@ -18,18 +20,25 @@ $blue-1: #121624;
   border-radius: 10px;
   font-weight: 500;
   color: var(--bs-primary);
-  &.player-x {
-    color: var(--bs-danger);
-  }
-  &.player-o {
-    color: var(--bs-primary);
-  }
 }
 
 .btn {
   &.board-cell {
     &:hover {
-      background-color: rgba(18, 22, 36, 0.8);
+      background-color: rgba($blue-1, 0.8);
     }
   }
+}
+
+.bg-board {
+  background-color: $blue-1;
+}
+
+.player-x {
+  font-family: "Itim", cursive;
+  color: var(--bs-danger);
+}
+.player-o {
+  font-family: "Itim", cursive;
+  color: var(--bs-primary);
 }
