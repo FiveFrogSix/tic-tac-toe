@@ -1,4 +1,9 @@
 <script lang="ts" setup>
+interface MiniMax {
+  index?: number | null;
+  score: number;
+}
+
 const board = ref<Array<string | null>>(Array(9).fill(null));
 const currentPlayer = ref("X");
 const winner = ref<string | null>(null);
@@ -39,9 +44,9 @@ function checkWinner(board: Array<string | null>, player: string) {
 }
 
 function botMove() {
-  const bestMove = minimax(board.value, "O").index;
-  if (bestMove !== undefined) {
-    makeMove(bestMove);
+  const bestMove = minimax(board.value, "O");
+  if (bestMove.index !== undefined && bestMove.index !== null) {
+    makeMove(bestMove.index);
     statusPlay.value = false;
   }
 }
@@ -51,8 +56,6 @@ function minimax(newBoard: Array<string | null>, player: string) {
     .map((cell, index) => (cell === null ? index : null))
     .filter((index) => index !== null) as number[];
 
-  const opponent = player === "X" ? "O" : "X";
-
   if (checkWinner(newBoard, "X")) {
     return { score: -10 };
   } else if (checkWinner(newBoard, "O")) {
@@ -61,11 +64,11 @@ function minimax(newBoard: Array<string | null>, player: string) {
     return { score: 0 };
   }
 
-  const moves = [];
+  const moves: MiniMax[] = [];
 
   for (let i = 0; i < emptyCells.length; i++) {
     const index = emptyCells[i];
-    const move = { index };
+    const move: MiniMax = { index: index, score: 0 };
 
     newBoard[index] = player;
 
@@ -81,13 +84,15 @@ function minimax(newBoard: Array<string | null>, player: string) {
     moves.push(move);
   }
 
-  let bestMove;
+  const bestMove: MiniMax = { index: null, score: 0 };
+
   if (player === "O") {
     let bestScore = -Infinity;
     for (let i = 0; i < moves.length; i++) {
       if (moves[i].score > bestScore) {
         bestScore = moves[i].score;
-        bestMove = moves[i];
+        bestMove.index = moves[i].index;
+        bestMove.score = moves[i].score;
       }
     }
   } else {
@@ -95,7 +100,8 @@ function minimax(newBoard: Array<string | null>, player: string) {
     for (let i = 0; i < moves.length; i++) {
       if (moves[i].score < bestScore) {
         bestScore = moves[i].score;
-        bestMove = moves[i];
+        bestMove.index = moves[i].index;
+        bestMove.score = moves[i].score;
       }
     }
   }
