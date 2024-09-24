@@ -33,6 +33,7 @@ const loginGoogle = async (event: H3Event) => {
     result = (await createUser(obj.email)) as User;
     token = result.token ? result.token : "";
   }
+  // TODO: update token expire when exist username
   // Final
   return Response(event, 200, { token });
 };
