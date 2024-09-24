@@ -11,12 +11,14 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.3",
+    "jwt-decode": "^4.0.0",
     "nuxt": "^3.13.2",
     "vue": "latest",
     "vue-router": "latest"
   },
   "devDependencies": {
     "@types/bootstrap": "^5.2.10",
+    "@types/jwt-decode": "^3.1.0",
     "sass": "^1.79.3"
   }
 }

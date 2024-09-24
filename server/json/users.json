@@ -1,1 +1,11 @@
-{"users":[{"username":"test01@gmail.com"},{"username":"test01@gmail.com"},{"username":"test01@gmail.com"}]}
+{
+  "users": [
+    {
+      "username": "test01@gmail.com"
+    },
+    {
+      "username": "test01@gmail.com",
+      "score": 0
+    }
+  ]
+}
