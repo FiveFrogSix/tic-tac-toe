@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+const router = useRouter();
+const auth = useAuthStore();
+const { user } = storeToRefs(useAuthStore());
+
 interface MiniMax {
   index?: number | null;
   score: number;
@@ -146,11 +150,17 @@ watch(currentPlayer, (newPlayer) => {
 
 function updateScore(winner: string | null) {
   if (winner === "X") {
-    scoreX.value += 1; 
+    scoreX.value += 1;
   } else if (winner === "O") {
     winStack.value += 1;
-    scoreO.value += 1; 
+    scoreO.value += 1;
   }
+}
+
+function logout() {
+  const token = useCookie("token");
+  token.value = "";
+  router.push("/");
 }
 </script>
 <template>
@@ -186,10 +196,16 @@ function updateScore(winner: string | null) {
       </GameBoard>
     </div>
 
-    <div class="w-100 text-center h3">Score: {{ scoreX }} </div>
-    <div class="w-100 text-center h3">Stack: {{ winStack }} </div>
+    <div class="w-100 text-center h3">Score: {{ user.score }}</div>
     <div class="text-center">
-      <button class="btn btn-danger btn-lg" @click="resetGame">RESET</button>
+      <div class="d-flex justify-content-center gap-3">
+        <div>
+          <button class="btn btn-primary" @click="resetGame">RESET</button>
+        </div>
+        <div>
+          <button class="btn btn-danger" @click="logout">Logout</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>

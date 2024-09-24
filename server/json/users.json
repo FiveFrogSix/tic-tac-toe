@@ -1,11 +1,10 @@
 {
-  "users": [
+  "data": [
     {
-      "username": "test01@gmail.com"
-    },
-    {
-      "username": "test01@gmail.com",
-      "score": 0
+      "username": "tirawat.saijai@gmail.com",
+      "score": 0,
+      "token": "5cff98fb370df59374f68dce8e695cff",
+      "expire": 1727798227
     }
   ]
 }
