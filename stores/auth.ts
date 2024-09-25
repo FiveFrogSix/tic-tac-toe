@@ -60,5 +60,27 @@ export const useAuthStore = defineStore("authStore", {
 
       return { status, data };
     },
+    async authUpdateScore() {
+      const { $axios } = useNuxtApp();
+      const config = {
+        url: `/api/user/score`,
+        method: "PUT",
+        data: {
+          username: this.user.username,
+          score: this.user.score,
+        },
+      };
+      const { status, data } = await $axios(config)
+        .then((res) => {
+          return res.data;
+        })
+        .catch((err) => {
+          if (err.response) {
+            return err.response.data;
+          }
+          return err;
+        });
+      return { status, data };
+    },
   },
 });

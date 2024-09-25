@@ -1,6 +1,5 @@
 import { useAuthStore } from "~/stores/auth";
 export default defineNuxtRouteMiddleware(async (to) => {
-  const { $axios } = useNuxtApp();
   const auth = useAuthStore();
 
   const token = useCookie("token");

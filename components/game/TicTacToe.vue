@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import CountScore from "./CountScore.vue";
+
 const router = useRouter();
 const auth = useAuthStore();
 const { user } = storeToRefs(useAuthStore());
@@ -15,7 +17,15 @@ const winner = ref<string | null>(null);
 const scoreX = ref(0); // คะแนนของผู้เล่น X
 const scoreO = ref(0); // คะแนนของผู้เล่น O
 const winStack = ref(0); // คะแนนชนะต่อเนื่อง
+const winStackTotal = ref(0); // คะแนนชนะต่อเนื่อง
 const statusPlay = ref(false);
+
+watch(currentPlayer, (newPlayer) => {
+  if (newPlayer === "O" && !winner.value) {
+    statusPlay.value = true;
+    setTimeout(botMove, 700);
+  }
+});
 
 function makeMove(index: number) {
   if (!board.value[index] && !winner.value) {
@@ -124,6 +134,17 @@ function minimax(newBoard: Array<string | null>, player: string) {
   return bestMove;
 }
 
+function easyMove() {
+  const emptyCells = board.value
+    .map((cell, index) => (cell === null ? index : null))
+    .filter((index) => index !== null) as number[];
+
+  if (emptyCells.length > 0) {
+    const randomIndex = Math.floor(Math.random() * emptyCells.length);
+    return emptyCells[randomIndex];
+  }
+}
+
 function newRound() {
   board.value = Array(9).fill(null);
   winner.value = null;
@@ -141,26 +162,43 @@ function resetGame() {
   winner.value = null;
 }
 
-watch(currentPlayer, (newPlayer) => {
-  if (newPlayer === "O" && !winner.value) {
-    statusPlay.value = true;
-    setTimeout(botMove, 700);
-  }
-});
-
-function updateScore(winner: string | null) {
+async function updateScore(winner: string | null) {
+  let roundWin = false;
   if (winner === "X") {
-    scoreX.value += 1;
+    roundWin = true;
   } else if (winner === "O") {
-    winStack.value += 1;
-    scoreO.value += 1;
+    roundWin = false;
   }
+  countScore(roundWin);
+  await auth.authUpdateScore();
 }
 
 function logout() {
   const token = useCookie("token");
   token.value = "";
   router.push("/");
+}
+
+function countScore(win = true) {
+  // บอทชนะ
+  if (!win) {
+    scoreO.value += 1;
+    winStack.value = 0;
+    winStackTotal.value = 0;
+    user.value.score--;
+    return false;
+  }
+  // คนชนะ
+  scoreX.value += 1;
+  winStack.value += 1;
+  user.value.score += 1;
+  winStackTotal.value += 1;
+  if (winStack.value >= 3) {
+    user.value.score += 1;
+    setTimeout(() => {
+      winStack.value = 0;
+    }, 1000);
+  }
 }
 </script>
 <template>
@@ -195,8 +233,21 @@ function logout() {
         </GameBanner>
       </GameBoard>
     </div>
-
-    <div class="w-100 text-center h3">Score: {{ user.score }}</div>
+    <div class="w-100 text-center d-flex flex-column gap-2">
+      <AuthInformation :username="user.username" />
+    </div>
+    <div class="w-100 text-center fs-3 d-flex flex-column gap-2">
+      <div class="position-relative mx-auto width-auto">
+        Score: {{ user.score }}
+        <CountScore :score="user.score" />
+      </div>
+      <div class="fs-6 text-info fw-normal">
+        Winning Streak: {{ winStackTotal }}
+      </div>
+      <div class="fs-6 fw-normal text-warning">
+        Get 1 point after 3 straight wins – {{ winStack }} wins currently
+      </div>
+    </div>
     <div class="text-center">
       <div class="d-flex justify-content-center gap-3">
         <div>
@@ -209,3 +260,9 @@ function logout() {
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.width-auto {
+  width: max-content;
+}
+</style>
