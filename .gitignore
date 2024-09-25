@@ -24,4 +24,4 @@ logs
 !.env.example
 
 # Json Mock up data
-server/json/users.json
+server/json/users*.json

@@ -1,75 +1,27 @@
-# Nuxt 3 Minimal Starter
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+# Tic Tac Toe
+ส่วนของการเก็บข้อมูลเป็นเก็บใน json ไม่ได้เก็บลง database หรือ แหล่งเก็บข้อมูลที่ไหน
+หากทดสอบพร้อมกันบนตัว demo อาจจะมีบัคคะแนนเล็กน้อย เพราะดันใช้ไฟล์เดียวกัน
 
-## Setup
 
-Make sure to install the dependencies:
 
-```bash
-# npm
-npm install
+## Demo
+ยังใช้งานไม่ได้ เพราะเดี๋ยวต้องทำพวก env กับ client id ใหม่สำหรับ production ก่อน
+http://ttt.fivefrogsix.com
 
-# pnpm
-pnpm install
 
-# yarn
-yarn install
 
-# bun
-bun install
-```
+## Installation
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+Install tic tac toe with npm
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
+  npm install 
+  npm run dev
 ```
 
-## Production
+## Roadmap
+- เพิ่ม oauth ตัวอื่น
+- เพิ่มโหมด AI
+- Leaderboard
 
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
