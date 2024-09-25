@@ -1,4 +1,5 @@
 <script setup lang="ts">
+declare var google: any;
 const router = useRouter();
 const auth = useAuthStore();
 const box = ref();
