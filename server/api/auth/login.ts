@@ -27,22 +27,32 @@ const loginGoogle = async (event: H3Event) => {
   if (!obj.email) return Response(event, 401, "Email not exist");
   // เช็คว่ามี user ยัง
   const user = (await findUser(obj.email)) as User;
-  let result = user;
-  let token = result.token;
+
+  let result = null;
+  let token = "";
+
+  const expire = setExpire();
+  const token_gen = genToken(obj.email + expire);
+
   if (!user) {
-    result = (await createUser(obj.email)) as User;
+    result = (await createUser(obj.email, token_gen, expire)) as User;
+    token = result.token ? result.token : "";
+  } else {
+    result = (await updateUser(obj.email, token_gen, expire)) as User;
     token = result.token ? result.token : "";
   }
-  // TODO: update token expire when exist username
   // Final
   return Response(event, 200, { token });
 };
 
-async function createUser(username: string): Promise<Object | null> {
+async function createUser(
+  username: string,
+  token: string,
+  expire: number
+): Promise<Object | null> {
   try {
     const users = (await getUsers()) as UsersData;
-    const expire = setExpire();
-    const token = genToken(username + expire);
+
     const user = {
       username: username,
       score: 0,
@@ -81,6 +91,35 @@ async function getUsers(): Promise<Object | null> {
     const data = await fs.readFile(jsonFilePath, "utf-8");
     return JSON.parse(data);
   } catch (err) {
+    return null;
+  }
+}
+
+async function updateUser(username: string, token: string, expire: number) {
+  try {
+    const users = (await getUsers()) as UsersData;
+
+    const user_edit = users.data.map((item) => {
+      if (item.username === username) {
+        item.token = token;
+        item.expire = expire;
+      }
+      return item;
+    });
+
+    const users_new = {
+      data: user_edit,
+    };
+
+    const user = {
+      username: username,
+      score: 0,
+      token: token,
+      expire: expire,
+    };
+    await fs.writeFile(jsonFilePath, JSON.stringify(users_new, null, 2));
+    return user;
+  } catch (error) {
     return null;
   }
 }

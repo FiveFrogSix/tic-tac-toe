@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import axios from "axios";
+
 export const useAuthStore = defineStore("authStore", {
   state: () => ({
     user: {
@@ -9,6 +9,7 @@ export const useAuthStore = defineStore("authStore", {
   }),
   actions: {
     async authUser(payload: object) {
+      const { $axios } = useNuxtApp();
       const config = {
         url: "/api/auth/login",
         method: "POST",
@@ -17,7 +18,7 @@ export const useAuthStore = defineStore("authStore", {
         },
         data: payload,
       };
-      const { data } = await axios(config)
+      const { data } = await $axios(config)
         .then((res) => {
           return res.data;
         })
@@ -36,17 +37,16 @@ export const useAuthStore = defineStore("authStore", {
       }
     },
     async authUserToken(token: string) {
+      const { $axios } = useNuxtApp();
       const config = {
         url: `/api/auth/${token}`,
         method: "GET",
       };
-      const { data } = await axios(config)
+      const { status, data } = await $axios(config)
         .then((res) => {
           return res.data;
         })
         .catch((err) => {
-          const token = useCookie("token");
-          token.value = "";
           if (err.response) {
             return err.response.data;
           }
@@ -57,6 +57,8 @@ export const useAuthStore = defineStore("authStore", {
         this.user.username = data.username;
         this.user.score = data.score;
       }
+
+      return { status, data };
     },
   },
 });
