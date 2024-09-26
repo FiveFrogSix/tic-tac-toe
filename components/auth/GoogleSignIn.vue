@@ -3,6 +3,7 @@ declare var google: any;
 const router = useRouter();
 const auth = useAuthStore();
 const box = ref();
+const config = useRuntimeConfig();
 
 onMounted(() => {
   initGoogleAuth();
@@ -10,8 +11,7 @@ onMounted(() => {
 
 const initGoogleAuth = async () => {
   google.accounts.id.initialize({
-    client_id:
-      "130124382359-n9qk0adj7q46rern65lkpj378g464ctf.apps.googleusercontent.com",
+    client_id: config.public.googleClientID,
     callback: handleCredentialResponse,
     auto_select: false,
   });

@@ -1,5 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  runtimeConfig: {
+    public: {
+      googleClientID:
+        process.env.GOOGLE_CLIENT_ID ||
+        "130124382359-n9qk0adj7q46rern65lkpj378g464ctf.apps.googleusercontent.com",
+    },
+  },
   app: {
     head: {
       title: "Tic Tac Toe",
